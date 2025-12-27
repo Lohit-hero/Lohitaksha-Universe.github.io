@@ -1,88 +1,504 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lohitaksha Koppada | Portfolio</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lohitaksha Koppada - AI Interface</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Custom Tailwind Configuration (AI/Cyber Theme) */
+        :root {
+            --bg-color: #0d1117; /* Deep Charcoal/GitHub Dark */
+            --primary-accent: #00ffaa; /* Bright Cyber Green */
+            --secondary-accent: #00bcd4; /* Cyan/Teal */
+            --text-color: #e6e6e6; /* Off-White */
+            --card-bg: rgba(13, 17, 23, 0.7); /* Transparent Dark */
+            --card-border: rgba(0, 255, 170, 0.3); /* Green Glow Border */
+        }
+
+        body {
+            font-family: 'Fira Code', monospace; /* Monospace/Code Font */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%2300ffaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M20 12h2"/><path d="M2 12h2"/></svg>'), auto;
+        }
+
+        .data-terminal-card {
+            backdrop-filter: blur(8px) brightness(0.8);
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 0.5rem; /* Sharper corners */
+            box-shadow: 0 0 15px rgba(0, 255, 170, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .data-terminal-card:hover {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 25px rgba(0, 255, 170, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .reveal-toggle {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            color: var(--primary-accent) !important;
+        }
+
+        .reveal-toggle.rotated {
+            transform: rotate(90deg);
+        }
+
+        .hidden-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+            opacity: 0;
+            padding-top: 0;
+        }
+        .hidden-content.visible {
+            max-height: 500px; /* Adjust based on content size */
+            opacity: 1;
+            padding-top: 1rem;
+        }
+
+        /* Typing Animation */
+        .typing-text {
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid var(--primary-accent); /* Blinking cursor */
+            animation: 
+                typing 3s steps(30, end) forwards,
+                blink-caret 0.75s step-end infinite;
+            width: 0;
+            display: inline-block;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-accent); }
+        }
+
+        /* Scanner/Pulse Effect for Logo */
+        @keyframes pulse-scan {
+            0% { box-shadow: 0 0 5px rgba(0, 255, 170, 0.4); }
+            50% { box-shadow: 0 0 15px rgba(0, 255, 170, 0.8), 0 0 30px rgba(0, 255, 170, 0.6); }
+            100% { box-shadow: 0 0 5px rgba(0, 255, 170, 0.4); }
+        }
+        .logo-scan {
+            animation: pulse-scan 2s infinite alternate;
+        }
+        
+        /* Background Grid/Data Flow - Pure CSS */
+        .ai-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 170, 0.05) 0%, rgba(13, 17, 23, 0) 70%),
+                linear-gradient(to right, rgba(0, 255, 170, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 255, 170, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+    </style>
 </head>
-<body>
-  <header id="hero">
-    <!-- Animated SVG Lines for subtle movement -->
-    <svg class="hero-bg-svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#00ffff" stop-opacity="0.3" />
-          <stop offset="100%" stop-color="#9c27b0" stop-opacity="0.1" />
-        </linearGradient>
-      </defs>
-      <line class="animated-line" x1="0" y1="0" x2="800" y2="600" stroke="url(#line-grad)" stroke-width="2" />
-      <line class="animated-line" x1="800" y1="0" x2="0" y2="600" stroke="url(#line-grad)" stroke-width="2" />
-      <circle class="moving-circle" cx="400" cy="300" r="100" stroke="#00ffff" stroke-opacity="0.15" stroke-width="4" fill="none"/>
-    </svg>
+<body class="bg-[#0d1117] text-[#e6e6e6]">
 
-    <div class="hero-content" data-aos="fade-up" data-aos-duration="1500">
-      <h1>Lohitaksha Koppada</h1>
-      <p>AI Researcher | Author | Scientist</p>
-      <a href="#about" class="btn">Explore</a>
+    <div class="ai-background"></div>
+
+    <nav class="sticky top-0 bg-[#0d1117]/80 backdrop-blur-md z-50 p-4 transition-all duration-300 rounded-b-lg shadow-xl border-b border-[#00ffaa]/30">
+        <div class="container mx-auto flex flex-wrap justify-center sm:justify-between items-center space-y-4 sm:space-y-0 px-4">
+            <div class="text-xl font-bold text-[#00ffaa] tracking-widest text-center sm:text-left logo-scan p-2 rounded">
+                [L_KOPPADA]
+            </div>
+            <div class="flex flex-wrap justify-center sm:justify-start space-x-4 md:space-x-8">
+                <a href="#profile" class="text-[#e6e6e6] hover:text-[#00ffaa] transition-colors duration-300 font-semibold text-lg">::PROFILE</a>
+                <a href="#about-me" class="text-[#e6e6e6] hover:text-[#00ffaa] transition-colors duration-300 font-semibold text-lg">::ABOUT</a>
+                <a href="#projects" class="text-[#e6e6e6] hover:text-[#00ffaa] transition-colors duration-300 font-semibold text-lg">::PROJECTS</a>
+                <a href="#skills" class="text-[#e6e6e6] hover:text-[#00ffaa] transition-colors duration-300 font-semibold text-lg">::SKILLS</a>
+                <a href="#achievements" class="text-[#e6e6e6] hover:text-[#00ffaa] transition-colors duration-300 font-semibold text-lg">::LOGS</a>
+                <a href="#contact" class="text-[#e6e6e6] hover:text-[#00ffaa] transition-colors duration-300 font-semibold text-lg">::CONNECT</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mx-auto p-6 lg:p-12 space-y-20">
+
+        <section id="ai-greeting" class="data-terminal-card p-8 md:p-12 text-center rounded-lg shadow-xl mt-12">
+            <div class="flex flex-col items-center">
+                <i id="robot-icon" class="fas fa-robot text-6xl md:text-8xl text-[#00ffaa] mb-6 animate-bounce" style="animation-duration: 4s; animation-iteration-count: infinite;"></i>
+                <h2 class="text-2xl md:text-3xl font-bold text-[#00bcd4] mb-4">
+                    [SYSTEM_INITIATED]
+                </h2>
+                <div class="text-3xl md:text-5xl font-extrabold text-[#e6e6e6] h-12 flex items-center justify-center">
+                    <span id="typing-output" class="typing-text">Hello, Explorer! Accessing Data Stream...</span>
+                </div>
+            </div>
+        </section>
+        
+        <section id="profile" class="data-terminal-card p-8 md:p-12 text-center rounded-lg shadow-xl border-[#00bcd4]/50">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-[#00ffaa]">
+                <span class="block text-[#e6e6e6] text-lg md:text-xl mb-2">[USER_PROFILE_ID: LK-V2.0]</span>
+                <span class="text-[#00bcd4]">Lohitaksha Koppada</span>
+            </h1>
+            <p class="mt-4 text-lg md:text-xl text-[#e6e6e6] max-w-2xl mx-auto">
+                Guiding minds through the **cosmos of personal growth**, leadership, and limitless possibilities.
+            </p>
+        </section>
+
+        <section id="about-me" aria-labelledby="about-title" class="data-terminal-card p-8 md:p-12 rounded-lg shadow-xl">
+            <header class="mb-6 border-b border-[#00ffaa]/20 pb-4">
+                <h1 id="about-title" class="text-3xl md:text-4xl font-bold text-[#00ffaa]">::QUERY: USER_MOTIVATION</h1>
+                <p class="text-[#e6e6e6] mt-4">
+                    Welcome, My Fellow Voyager! I’m Lohitaksha — an advocate for personal growth, meaningful connection, and the potential that lives in each of us. My mission is to inspire people to live fully and take intentional steps toward the futures they imagine.
+                </p>
+            </header>
+
+            <article id="fiard" aria-labelledby="fiard-title" class="mb-8">
+                <h2 id="fiard-title" class="text-2xl font-semibold text-[#00bcd4]">>> The Helm Collective: Coaching for Lasting Growth</h2>
+                <p class="text-[#e6e6e6] mt-2">
+                    I founded <em>The Helm Collective - Leadership & Personal Development</em> — as a global coaching platform for professionals, entrepreneurs, and students.
+                    At The Helm Collective, I create personalized programs that blend evidence-based leadership strategies, neuroscience-informed mindset practices, and practical goal systems to help clients achieve lasting transformation and expand what they believe is possible.
+                </p>
+            </article>
+
+            <article id="podcast" aria-labelledby="podcast-title" class="mb-8">
+                <h2 id="podcast-title" class="text-2xl font-semibold text-[#00bcd4]">>> Lohitaksha’s Den: Curious Conversations</h2>
+                <p class="text-[#e6e6e6] mt-2">
+                    <strong>Lohitaksha’s Den</strong> is my podcast — a space where curiosity leads the way.
+                    Through thoughtful conversations with diverse guests, we explore leadership, personal development, philosophy, innovation, and everyday wisdom.
+                    Each episode invites reflection, sparks curiosity, and nurtures a community that celebrates learning.
+                </p>
+            </article>
+            
+            <footer aria-labelledby="values-title" class="mt-10 border-t border-[#00ffaa]/20 pt-4">
+                <h2 id="values-title" class="text-2xl font-semibold text-[#00bcd4]">::DATA_TAGS</h2>
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-sm font-semibold border border-[#00ffaa]/50">Entrepreneurship</span>
+                    <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-sm font-semibold border border-[#00ffaa]/50">Coaching</span>
+                    <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-sm font-semibold border border-[#00ffaa]/50">Personal Development</span>
+                    <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-sm font-semibold border border-[#00ffaa]/50">Leadership</span>
+                    <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-sm font-semibold border border-[#00ffaa]/50">Author</span>
+                    <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-sm font-semibold border border-[#00ffaa]/50">Podcaster</span>
+                    <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-sm font-semibold border border-[#00ffaa]/50">Resilience</span>
+                    <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-sm font-semibold border border-[#00ffaa]/50">Mindset</span>
+                    <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-sm font-semibold border border-[#00ffaa]/50">Public Speaking</span>
+                </div>
+            </footer>
+        </section>
+    
+        <section id="projects" class="space-y-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-[#00bcd4]">::ACTIVE_PROJECTS (UNDERWAY)</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="data-terminal-card p-6 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-4 cursor-pointer" onclick="toggleReveal(this)">
+                        <h3 class="text-xl font-semibold text-[#00ffaa]">Book Project: "The Quantum Revolution"</h3>
+                        <span class="text-2xl reveal-toggle">&#9658;</span>
+                    </div>
+                    <div class="hidden-content">
+                        <ul class="list-disc list-inside space-y-2 text-[#e6e6e6]/80 pl-4">
+                            <li>Leading the authorship of a two-volume advanced Quantum Mechanics series for graduate-level students, in collaboration with Dr. Caio Firme.</li>
+                            <li>The series has been accepted for publication by CRC Press.</li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-700/50">
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Physics</span>
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Quantum Mechanics</span>
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Author</span>
+                    </div>
+                </div>
+                <div class="data-terminal-card p-6 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-4 cursor-pointer" onclick="toggleReveal(this)">
+                        <h3 class="text-xl font-semibold text-[#00ffaa]">M.Tech Project: Hydrogen Embrittlement in Low-density Steels</h3>
+                        <span class="text-2xl reveal-toggle">&#9658;</span>
+                    </div>
+                    <div class="hidden-content">
+                        <ul class="list-disc list-inside space-y-2 text-[#e6e6e6]/80 pl-4">
+                            <li>Investigating the mechanical and microstructural evolution of Low Density Steel under hydrogen exposure.</li>
+                            <li>Combining fracture toughness tests, hydrogen charging, microanalysis techniques like XRF/SEM/ECCI/EBSD.</li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-700/50">
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Hydrogen Embrittlement</span>
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Microanalysis</span>
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Computational Modelling</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-[#00bcd4] mt-12">::COMPLETED_MISSIONS (ACCOMPLISHED)</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="data-terminal-card p-6 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-4 cursor-pointer" onclick="toggleReveal(this)">
+                        <h3 class="text-xl font-semibold text-[#00ffaa]">Master’s Project: Confined Hydrogen Atom (Phase I)</h3>
+                        <span class="text-2xl reveal-toggle">&#9658;</span>
+                    </div>
+                    <div class="hidden-content">
+                        <ul class="list-disc list-inside space-y-2 text-[#e6e6e6]/80 pl-4">
+                            <li>Conducted an in-depth literature survey on the theoretical treatment of screened Coulomb potentials, focusing on their application in multi-electron systems and confined hydrogen atoms.</li>
+                            <li>Explored the effects of various potential models (e.g., Yukawa and Hulthén potentials) on the electronic structure and properties of hydrogen-like systems under confinement.</li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-700/50">
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Quantum Mechanics</span>
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Quantum Confinement</span>
+                    </div>
+                </div>
+
+                <div class="data-terminal-card p-6 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-4 cursor-pointer" onclick="toggleReveal(this)">
+                        <h3 class="text-xl font-semibold text-[#00ffaa]">Master's Project: Confined Hydrogen Atom (Phase II)</h3>
+                        <span class="text-2xl reveal-toggle">&#9658;</span>
+                    </div>
+                    <div class="hidden-content">
+                        <ul class="list-disc list-inside space-y-2 text-[#e6e6e6]/80 pl-4">
+                            <li>Investigated electronic properties of confined hydrogen atoms subjected to screened Coulomb potentials, analyzing quantum mechanical confinement and environmental screening effects.</li>
+                            <li>Computed **Shannon entropy** and **disequilibrium** to quantify electron distribution uncertainty and structural organization.</li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-700/50">
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Information Measures (Shannon Entropy)</span>
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Scientific Computing with Python</span>
+                    </div>
+                </div>
+
+                <div class="data-terminal-card p-6 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-4 cursor-pointer" onclick="toggleReveal(this)">
+                        <h3 class="text-xl font-semibold text-[#00ffaa]">Published Review Article</h3>
+                        <span class="text-2xl reveal-toggle">&#9658;</span>
+                    </div>
+                    <div class="hidden-content">
+                        <ul class="list-disc list-inside space-y-2 text-[#e6e6e6]/80 pl-4">
+                            <li>Led the review article examining eicosanoid signaling in neuroinflammation associated with Alzheimer's disease.</li>
+                            <li>Published in a peer-reviewed <em>European Journal of Pharmacology</em> (May 2024; <a href="https://doi.org/10.1016/j.ejphar.2024.176694" target="_blank" class="text-[#00ffaa] hover:text-[#00bcd4]">DOI: 10.1016/j.ejphar.2024.176694</a>).</li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-700/50">
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Scientific Writing</span>
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Research Leadership</span>
+                        <span class="px-3 py-1 bg-[#00bcd4]/20 text-[#00bcd4] rounded-sm text-xs font-semibold">Neuroinflammation</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="mt-24 space-y-16">
+            <h2 class="text-3xl md:text-5xl font-bold text-center text-[#00ffaa]">::QUERY: SKILL_MATRIX (TECHNICAL)</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="data-terminal-card p-6 h-full">
+                    <div class="flex items-center justify-between mb-4 cursor-pointer" onclick="toggleReveal(this)">
+                        <h3 class="text-xl font-semibold text-[#00bcd4]">Python & ML Fundamentals</h3>
+                        <span class="text-2xl reveal-toggle">&#9658;</span>
+                    </div>
+                    <div class="hidden-content">
+                        <ul class="list-disc list-inside space-y-2 text-[#e6e6e6]/80 pl-4">
+                            <li><strong>Python Programming:</strong> Proficient in fundamental data structures and libraries like NumPy, Pandas, and Matplotlib.</li>
+                            <li><strong>Deep Learning:</strong> Skilled in using Keras and TensorFlow for building neural networks, including CNNs and RNNs.</li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-700/50">
+                        <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-xs font-semibold">Python</span>
+                        <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-xs font-semibold">Machine Learning</span>
+                        <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-xs font-semibold">Deep Learning</span>
+                    </div>
+                </div>
+                </div>
+        </section>
+
+        <section id="soft-skills" class="space-y-12">
+            <h2 class="text-3xl md:text-5xl font-bold text-center text-[#00ffaa]">::QUERY: SKILL_MATRIX (SOFT) </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="data-terminal-card p-6 h-full">
+                    <div class="flex items-center justify-between mb-4 cursor-pointer" onclick="toggleReveal(this)">
+                        <h3 class="text-xl font-semibold text-[#00bcd4]">Leadership & Project Management</h3>
+                        <span class="text-2xl reveal-toggle">&#9658;</span>
+                    </div>
+                    <div class="hidden-content">
+                        <ul class="list-disc list-inside space-y-2 text-[#e6e6e6]/80 pl-4">
+                            <li><strong>Team Leadership:</strong> Successfully led a team of four in authoring a peer-reviewed review article over eight months.</li>
+                            <li><strong>Scientific Communication:</strong> Delivered in-depth presentations on complex topics to leading experts.</li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-700/50">
+                        <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-xs font-semibold">Leadership</span>
+                        <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-xs font-semibold">Scientific Communication</span>
+                    </div>
+                </div>
+                </div>
+        </section>
+
+        <section id="achievements" class="mt-24 space-y-16">
+            <h2 class="text-3xl md:text-5xl font-bold text-center text-[#00ffaa]">::DATA_LOG (ACADEMIC & PROFESSIONAL)</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+
+                <div class="data-terminal-card p-8 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-4 cursor-pointer" onclick="toggleReveal(this)">
+                        <h3 class="text-2xl font-bold text-[#00bcd4]">Research & Publications</h3>
+                        <span class="text-3xl reveal-toggle">&#9658;</span>
+                    </div>
+                    <div class="hidden-content">
+                        <ul class="list-disc list-inside space-y-4 text-[#e6e6e6]/80 pl-4">
+                            <li>
+                                <strong>Lead Author (Journal Article):</strong> Led a team to publish a peer-reviewed article in Elsevier journal on <a href="https://doi.org/10.1016/j.ejphar.2024.176694" class="text-[#00ffaa] hover:text-[#00bcd4]">"Eicosanoid signaling in neuroinflammation associated with Alzheimer’s disease."</a>
+                            </li>
+                            </ul>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-auto pt-6 border-t border-gray-700/50">
+                        <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-xs font-semibold">Academic Research</span>
+                        <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-xs font-semibold">Peer-Reviewed</span>
+                        <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-xs font-semibold">Book Author</span>
+                    </div>
+                </div>
+
+                <div class="data-terminal-card p-8 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-4 cursor-pointer" onclick="toggleReveal(this)">
+                        <h3 class="text-2xl font-bold text-[#00bcd4]">Academic Excellence</h3>
+                        <span class="text-3xl reveal-toggle">&#9658;</span>
+                    </div>
+                    <div class="hidden-content">
+                        <ul class="list-disc list-inside space-y-4 text-[#e6e6e6]/80 pl-4">
+                            <li>
+                                <strong>Highest Academic Performer:</strong> Recognized as the top academic performer for five consecutive years during the Integrated Master’s program.
+                            </li>
+                            <li>
+                                <strong>Competitive Exam Results:</strong>
+                                <ul class="list-disc list-inside space-y-2 ml-6">
+                                    <li>GATE 2025 - All India Rank 727</li>
+                                    <li>CSIR-NET-JRF 2025 - All India Rank 37</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-auto pt-6 border-t border-gray-700/50">
+                        <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-xs font-semibold">Academic Achievement</span>
+                        <span class="px-3 py-1 bg-[#00ffaa]/20 text-[#00ffaa] rounded-sm text-xs font-semibold">Competitive Exams</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="data-terminal-card p-8 md:p-12 mb-12 text-center border-[#00ffaa]/50">
+            <h2 class="text-3xl md:text-5xl font-bold text-[#00ffaa] mb-6 w-full">::TRANSFER_PROTOCOL (CONNECT)</h2>
+            <p class="text-[#e6e6e6] mb-10 max-w-2xl mx-auto">
+                Whether you want to collaborate, share ideas, or simply say hello — I’m just a click away. Let’s create something extraordinary together.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-8 md:gap-12 text-lg">
+                
+                <a href="mailto:lohitaksha.koppada123@gmail.com" class="group bg-[#0d1117]/80 hover:bg-[#00ffaa]/10 px-6 py-4 rounded-sm transition-colors flex items-center space-x-3 shadow-lg border border-[#00bcd4]/50">
+                    <i class="fas fa-envelope text-[#00bcd4] text-2xl group-hover:text-[#00ffaa]"></i>
+                    <div>
+                        <p class="font-semibold text-[#e6e6e6]">Email</p>
+                        <p class="text-[#00bcd4] text-sm">lohitaksha.koppada123@gmail.com</p>
+                    </div>
+                </a>
+
+                <a href="https://www.linkedin.com/in/lohitaksha-den/" target="_blank" class="group bg-[#0d1117]/80 hover:bg-[#00ffaa]/10 px-6 py-4 rounded-sm transition-colors flex items-center space-x-3 shadow-lg border border-[#00bcd4]/50">
+                    <i class="fab fa-linkedin text-[#00bcd4] text-2xl group-hover:text-[#00ffaa]"></i>
+                    <div>
+                        <p class="font-semibold text-[#e6e6e6]">LinkedIn</p>
+                        <p class="text-[#00bcd4] text-sm">linkedin.com/in/lohitaksha-den/</p>
+                    </div>
+                </a>
+
+                <a href="https://lohit-hero.github.io/Lohitaksha-web/" target="_blank"
+                class="group bg-[#0d1117]/80 hover:bg-[#00ffaa]/10 px-6 py-4 rounded-sm transition-colors flex items-center space-x-3 shadow-lg border border-[#00bcd4]/50">
+                    <i class="fas fa-globe text-[#00bcd4] text-2xl group-hover:text-[#00ffaa]"></i>
+                    <div>
+                        <p class="font-semibold text-[#e6e6e6]">Website</p>
+                        <p class="text-[#00bcd4] text-sm">lohit-hero.github.io/Lohitaksha-web/</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="ai-signoff" class="p-8 text-center mt-12 mb-12 border-t border-[#00ffaa]/30">
+            <i class="fas fa-robot text-5xl text-[#00ffaa] mb-4"></i>
+            <h3 id="signoff-text" class="text-xl md:text-2xl font-bold text-[#e6e6e6]">
+                [SYSTEM_SHUTDOWN] Thank you for accessing the data stream. **Goodbye.**
+            </h3>
+        </section>
+        
+        <footer class="p-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2025 Lohitaksha Koppada. [DATA_LICENSE: OPEN_SOURCE_V1]</p>
+        </footer>
     </div>
-  </header>
 
-  <nav>
-    <ul>
-      <li><a href="#about" data-aos="fade-down" data-aos-delay="100">About</a></li>
-      <li><a href="#skills" data-aos="fade-down" data-aos-delay="200">Skills</a></li>
-      <li><a href="#projects" data-aos="fade-down" data-aos-delay="300">Projects</a></li>
-      <li><a href="#contact" data-aos="fade-down" data-aos-delay="400">Contact</a></li>
-    </ul>
-  </nav>
+    <script>
+        // Modified function to handle the reveal/hide for AI aesthetic
+        window.toggleReveal = function(element) {
+            const toggleIcon = element.querySelector('.reveal-toggle');
+            const content = element.nextElementSibling;
+            
+            if (content && toggleIcon) {
+                // Toggle the custom 'visible' class
+                content.classList.toggle('visible');
+                // Toggle icon rotation
+                toggleIcon.classList.toggle('rotated');
+                // Toggle the default 'hidden-content' class *after* a small delay to start CSS transition smoothly
+                setTimeout(() => {
+                    content.classList.toggle('hidden-content');
+                }, 10);
+            }
+        };
 
-  <section id="about" data-aos="fade-right" data-aos-duration="1000" class="section-content">
-    <h2>About Me</h2>
-    <p>Resolute and results-oriented researcher with expertise in Python, Machine Learning, Deep Learning, and Quantum Chemistry. Published author and top-ranked academic performer.</p>
-    <a href="sita_final_cv.pdf" download class="btn">Download CV</a>
-  </section>
+        // Initialize reveal state (all hidden by default)
+        document.querySelectorAll('.data-terminal-card .hidden-content').forEach(content => {
+            content.classList.add('hidden-content');
+        });
 
-  <section id="skills" data-aos="fade-left" data-aos-duration="1000" class="section-content">
-    <h2>Skills</h2>
-    <div class="skills-grid">
-      <span>Python</span>
-      <span>Machine Learning</span>
-      <span>TensorFlow</span>
-      <span>Keras</span>
-      <span>Scikit-learn</span>
-      <span>Docker</span>
-      <span>Kubernetes</span>
-      <span>Quantum Chemistry</span>
-    </div>
-  </section>
 
-  <section id="projects" data-aos="zoom-in" data-aos-duration="1200" class="section-content">
-    <h2>Projects</h2>
-    <ul>
-      <li>📘 Review Article: Eicosanoid Signaling in Alzheimer's Disease (Elsevier)</li>
-      <li>🔬 Master's Thesis: Confined Hydrogen Atom & Statistical Complexity</li>
-      <li>🎙️ Podcast: Lohitaksha's Den – Interviews with Global Experts</li>
-    </ul>
-  </section>
+        // Robot Typing Animation Script
+        const typingElement = document.getElementById('typing-output');
+        const robotIcon = document.getElementById('robot-icon');
+        const initialText = "Hello, Explorer! Accessing Data Stream...";
+        
+        if (typingElement) {
+            // Re-apply the initial setup to ensure typing animation plays on load
+            typingElement.textContent = initialText;
+            typingElement.classList.remove('typing-text'); // Remove to reset animation
+            void typingElement.offsetWidth; // Trigger reflow
+            typingElement.classList.add('typing-text'); // Add back to restart animation
+        }
+        
+        // Robot Sign-off Animation on scroll (optional, but engaging)
+        window.addEventListener('scroll', () => {
+            const signoffSection = document.getElementById('ai-signoff');
+            const signoffText = document.getElementById('signoff-text');
+            const robot = signoffSection.querySelector('.fa-robot');
 
-  <section id="contact" data-aos="fade-up" data-aos-duration="1000" class="section-content">
-    <h2>Contact Me</h2>
-    <form action="https://formspree.io/f/yourFormID" method="POST" class="contact-form" novalidate>
-      <input type="text" name="name" placeholder="Your Name" required aria-label="Your Name" />
-      <input type="email" name="email" placeholder="Your Email" required aria-label="Your Email" />
-      <textarea name="message" rows="5" placeholder="Your Message" required aria-label="Your Message"></textarea>
-      <button type="submit" class="btn">Send Message</button>
-    </form>
-  </section>
+            const sectionTop = signoffSection.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
 
-  <footer>
-    <p>&copy; 2025 Lohitaksha Koppada. All rights reserved.</p>
-  </footer>
-
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="script.js"></script>
+            if (sectionTop < windowHeight * 0.8) {
+                // If section is 80% visible, start animation/effect
+                robot.style.color = '#ff0000'; // Change color to red/orange for 'shutdown' feel
+                robot.classList.add('fa-power-off');
+                robot.classList.remove('fa-robot');
+                signoffText.style.animation = 'blink-caret 0.75s step-end infinite';
+            } else {
+                robot.style.color = '#00ffaa';
+                robot.classList.remove('fa-power-off');
+                robot.classList.add('fa-robot');
+                signoffText.style.animation = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
