@@ -1,103 +1,127 @@
 /* =========================================== */
-/* AI/Cyber Theme Variables */
+/* AI/Cyber Universe Theme Variables */
 /* =========================================== */
 :root {
-    --bg-color: #0d1117; /* Deep Charcoal/GitHub Dark */
-    --primary-accent: #00ffaa; /* Bright Cyber Green */
-    --secondary-accent: #00bcd4; /* Cyan/Teal */
-    --text-color: #e6e6e6; /* Off-White */
-    --card-bg: rgba(13, 17, 23, 0.7); /* Transparent Dark */
-    --card-border: rgba(0, 255, 170, 0.3); /* Green Glow Border */
+    --bg-color: #03001C; /* Deep Space Black-Blue */
+    --primary-accent: #00FFFF; /* Bright Cyan Neon */
+    --secondary-accent: #FF00FF; /* Electric Magenta */
+    --text-color: #E0FFFF; /* Off-White Cyan */
+    --card-bg-opacity: 0.15;
+    --card-border-color: rgba(0, 255, 255, 0.4); /* Neon Cyan Border */
+    --shadow-glow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.2);
+    --hover-glow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 30px rgba(0, 255, 255, 0.5);
 }
 
 /* =========================================== */
-/* Global Styles */
+/* Global Styles & Overrides */
 /* =========================================== */
 body {
-    font-family: 'Fira Code', monospace; /* Monospace/Code Font */
+    /* Keeping Inter but emphasizing the digital feel */
+    font-family: 'Inter', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     overflow-x: hidden;
     /* Custom crosshair cursor for AI aesthetic */
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%2300ffaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M20 12h2"/><path d="M2 12h2"/></svg>'), auto;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%2300FFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M20 12h2"/><path d="M2 12h2"/></svg>'), auto;
 }
 
-/* Background Grid/Data Flow - Pure CSS */
-.ai-background {
+/* Background Canvas */
+#bg-canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
-    /* Two gradients creating a subtle grid pattern */
-    background: 
-        radial-gradient(circle at 50% 50%, rgba(0, 255, 170, 0.05) 0%, rgba(13, 17, 23, 0) 70%),
-        linear-gradient(to right, rgba(0, 255, 170, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 255, 170, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
     pointer-events: none;
 }
 
+/* Navigation */
+nav {
+    border-bottom: 2px solid var(--primary-accent); /* Sharp neon line */
+}
+nav a:hover {
+    color: var(--primary-accent) !important;
+    text-shadow: 0 0 8px var(--primary-accent);
+}
+
+/* Typography Enhancements */
+h1, h2, h3 {
+    color: var(--primary-accent);
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+a:not(.group, .text-cyan-400) {
+    color: var(--secondary-accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
 /* =========================================== */
-/* Card/Terminal Styles */
+/* Card/Glass Styles */
 /* =========================================== */
-.data-terminal-card {
-    /* Glassmorphism/Cyberpunk effect */
-    backdrop-filter: blur(8px) brightness(0.8);
-    background-color: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 0.5rem; 
-    box-shadow: 0 0 15px rgba(0, 255, 170, 0.2);
+.glass-card {
+    backdrop-filter: blur(12px) brightness(0.7);
+    background-color: rgba(3, 0, 28, var(--card-bg-opacity));
+    border: 1px solid var(--card-border-color);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-glow);
     transition: all 0.3s ease;
 }
 
-.data-terminal-card:hover {
+.glass-card:hover {
     border-color: var(--primary-accent);
-    box-shadow: 0 0 25px rgba(0, 255, 170, 0.4);
+    box-shadow: var(--hover-glow);
     transform: translateY(-2px);
 }
 
+/* Tag Styles */
+.px-3.py-1 {
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    color: var(--primary-accent);
+    transition: background 0.2s;
+}
+.px-3.py-1:hover {
+    background: rgba(0, 255, 255, 0.25);
+}
+
 /* =========================================== */
-/* Dynamic Content/Reveal Styles */
+/* Reveal Animation */
 /* =========================================== */
 .reveal-toggle {
     cursor: pointer;
     transition: transform 0.3s ease;
-    color: var(--primary-accent) !important;
+    color: var(--secondary-accent) !important;
 }
 
 .reveal-toggle.rotated {
     transform: rotate(90deg);
 }
 
+/* Overwriting Tailwind's 'hidden' for smooth transition */
 .hidden-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
     opacity: 0;
-    padding-top: 0;
+    transition: max-height 0.5s ease-in-out, opacity 0.3s ease;
 }
-.hidden-content.visible {
-    max-height: 500px; /* Adjust based on max content size */
+.visible-content {
+    max-height: 1000px; /* Needs to be large enough for all content */
     opacity: 1;
-    padding-top: 1rem;
 }
 
 /* =========================================== */
-/* Animations */
+/* Typing Animation */
 /* =========================================== */
-
-/* Typing Animation for Intro */
-.typing-text {
+#typing-intro {
     white-space: nowrap;
     overflow: hidden;
-    border-right: 3px solid var(--primary-accent); /* Blinking cursor */
+    /* The blinking cursor (border) is handled by Tailwind's 'animate-pulse' in the JS */
     animation: 
-        typing 3s steps(30, end) forwards,
-        blink-caret 0.75s step-end infinite;
+        typing 3s steps(45, end) 1s forwards; /* 1s delay, 3s duration */
     width: 0;
     display: inline-block;
+    color: var(--secondary-accent); /* Make the animated text stand out */
 }
 
 @keyframes typing {
@@ -105,17 +129,23 @@ body {
     to { width: 100% }
 }
 
-@keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: var(--primary-accent); }
+/* =========================================== */
+/* Scrollbar */
+/* =========================================== */
+::-webkit-scrollbar {
+    width: 8px;
 }
 
-/* Scanner/Pulse Effect for Logo */
-@keyframes pulse-scan {
-    0% { box-shadow: 0 0 5px rgba(0, 255, 170, 0.4); }
-    50% { box-shadow: 0 0 15px rgba(0, 255, 170, 0.8), 0 0 30px rgba(0, 255, 170, 0.6); }
-    100% { box-shadow: 0 0 5px rgba(0, 255, 170, 0.4); }
+::-webkit-scrollbar-track {
+    background: rgba(0, 255, 255, 0.05);
+    border-radius: 10px;
 }
-.logo-scan {
-    animation: pulse-scan 2s infinite alternate;
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-accent);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-accent);
 }
